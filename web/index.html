@@ -132,12 +132,9 @@ and open the template in the editor.
                 <li><a data-toggle="tab" href="#gerenciamento">Gerenciamento</a></li>
                 <li><a data-toggle="tab" href="#lancamentos">Lançamentos</a></li>
                 <li><a data-toggle="tab" href="#configuracoes">Configurações</a></li>
+                <label style="margin-right: 5px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-time"></span>  {{ data | date:'HH:mm' }}</label>
+                <label style="margin-right: 5px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy' }}</label>
             </ul>
-
-            <div class="navbar navbar-fixed-top" role="navigation" style="margin-left: 20px; margin-right: 20px; margin-top: 15px" align="right">
-                <span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy'}}
-                <span class="glyphicon glyphicon-time " style="padding-left: 10px"></span> {{ data | date:'HH:mm'}}
-            </div>
 
             <div class="tab-content" style="margin-top: 15px">
 
