@@ -1,0 +1,24 @@
+{
+  "name": "Financas",
+  "authors": [
+    "Bruno.Souza <bruno.souza@senior.com.br>"
+  ],
+  "description": "Financas",
+  "main": "web/index.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "financas"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

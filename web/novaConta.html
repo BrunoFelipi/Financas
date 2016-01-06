@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="angularjs/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.js">
+    <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap-modal.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script>
+        var app = angular.module('app', []);
+        app.controller('controler', function($scope) {
+            $scope.data = new Date();
+
+            $scope.voltar = function () {
+                window.location.href = "login.html";
+            };
+
+            $scope.submitForm = function() {
+
+                document.getElementById('lblNok').innerHTML = "";
+                document.getElementById('lblOk').innerHTML = "";
+
+                if($scope.senha === $scope.confirmarSenha){
+                    document.getElementById('lblOk').innerHTML = "Usuário cadastrado com sucesso";
+                } else {
+                    document.getElementById('lblNok').innerHTML = "Senhas não conferem";
+                }
+            };
+        });
+
+    </script>
+</head>
+
+<body ng-app="app" ng-controller="controler">
+
+    <div class="container" style="margin-top: 250px">
+
+        <div class="navbar navbar-fixed-top" role="navigation" style="margin-left: 20px; margin-right: 20px; margin-top: 15px" align="right">
+            <span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy'}}
+            <span class="glyphicon glyphicon-time " style="padding-left: 10px"></span> {{ data | date:'HH:mm'}}
+        </div>
+
+        <div class="modal-dialog" >
+
+            <div class="modal-content">
+
+                <div class="modal-header" style="padding:35px 50px;">
+                    <h4><span class="glyphicon glyphicon-lock"></span> Criar conta</h4>
+                </div>
+
+                <div class="modal-body" style="padding:40px 50px;">
+
+                    <form name="form" ng-submit="submitForm()">
+
+                        <div class="input-group margin-bottom-sm">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input class="form-control" name="usuario" ng-model="usuario" type="text" placeholder="Usuário" required>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" name="senha" ng-model="senha" type="password" placeholder="Senha" required>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" name="confirmarSenha" ng-model="confirmarSenha" type="password" placeholder="Confimar Senha" required>
+                        </div>
+
+                        <div style="text-align: center">
+                            <label id="lblOk" style="color: #4f9a31"></label>
+                            <label id="lblNok" style="color: #ff653c"></label>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-block" ng-disabled="form.$invalid">Confirmar <span class="glyphicon glyphicon-thumbs-up"></span></button>
+                        <button type="button" class="btn btn-warning btn-block" ng-click="voltar()"><span class="glyphicon glyphicon-hand-left"></span> Voltar</button>
+
+                    </form>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="navbar navbar-fixed-bottom" role="navigation" style="margin-left: 20px;" align="center">
+                <label>© Copyright 2016</label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
