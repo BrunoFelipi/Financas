@@ -29,33 +29,6 @@ and open the template in the editor.
                 background-color: #f9f9f9;
             }
 
-            .box {
-                margin: 50px auto;
-                background: #cf7514;
-                width: 25px;
-                height: 25px;
-            }
-
-            .box:hover {
-                -webkit-transform: rotate(360deg);
-                background: #cf7514;
-                border-radius: 50%;
-            }
-
-            .rotate {
-                -webkit-transition: all 0.5s ease-in-out;
-                -moz-transition: all 0.5s ease-in-out;
-                -o-transition: all 0.5s ease-in-out;
-                transition: all 0.5s ease-in-out;
-            }
-
-            .rotate:hover {
-                -webkit-transition: all 1s ease-in-out;
-                -moz-transition: all 1s ease-in-out;
-                -o-transition: all 1s ease-in-out;
-                transition: all 1s ease-in-out;
-            }
-
         </style>
 
         <script>
@@ -88,7 +61,6 @@ and open the template in the editor.
                     for(var i = 0; i < $scope.listaPessoas.length; i++ ) {
                         $scope.listaPessoas[i].id = i +1;
                     }
-
                 };
 
                 //REMOVEROW
@@ -231,7 +203,7 @@ and open the template in the editor.
                                     <div class="modal-footer">
 
                                         <div style="float: left">
-                                            <button type="button" class="btn btn-sm" style="background-color: #4cae4c"></button> <label> Pago até dia 15 </label>
+                                            <button type="button" class="btn btn-sm" style="background-color: #4cae4c"></button> <label> Pago até dia {{ dataLimite }} </label>
                                             <button type="button" class="btn btn-sm" style="background-color: gold"> </button> <label> Pago até ultimo dia do mês </label>
                                             <button type="button" class="btn btn-sm" style="background-color: orangered"> </button> <label> Em atraso </label>
                                         </div>
@@ -252,10 +224,18 @@ and open the template in the editor.
                 <!-- Menu 3 - Configurações-->
                 <div id="configuracoes" class="tab-pane fade">
 
-                    <div class="container">
-                        <div class="box rotate"></div>
-                    </div>
+                    <div class="container-fluid">
 
+                        <div>
+                            <label>Data limite para pagamento da mensalidade: </label> <input type="number" value="1" name="dataLimite" ng-model="dataLimite" min="1" max="31" style="text-align: center">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Valor da mensalidade: </label>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="text" value="1" name="dataLimite" ng-model="dataLimite" min="1" max="31" style="text-align: center">
+                        </div>
+                    </div>
                 </div>
             </div>
 
