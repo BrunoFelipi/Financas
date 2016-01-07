@@ -29,6 +29,11 @@ and open the template in the editor.
                 background-color: #f9f9f9;
             }
 
+            /* Set the fixed height of the footer here */
+            #footer {
+                background-color: #f5f5f5;
+            }
+
         </style>
 
         <script>
@@ -90,6 +95,30 @@ and open the template in the editor.
                     $scope.id = id;
                     $scope.name = name;
                 }
+
+                //Logout
+                $scope.logout = function(){
+                    window.location.href = "login.html";
+                }
+
+                //VALIDATE - validar o valor do campo "Valor da mensalidade" para aceitar apenas números.
+                $scope.validate = function (evt) {
+                    var theEvent = evt || window.event;
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode( key );
+                    var regex = /[0-9]|\./;
+                    if( !regex.test(key) ) {
+                        theEvent.returnValue = false;
+                        if(theEvent.preventDefault) theEvent.preventDefault();
+                    }
+                }
+
+                //EXECUTA AO CARREGAR A PÁGINA
+                angular.element(document).ready(function () {
+                    document.getElementsByName('dataLimite')[0].value = "1";
+                    document.getElementsByName('valor')[0].value = "0";
+                });
+
             });
         </script>
 
@@ -104,8 +133,10 @@ and open the template in the editor.
                 <li><a data-toggle="tab" href="#gerenciamento">Gerenciamento</a></li>
                 <li><a data-toggle="tab" href="#lancamentos">Lançamentos</a></li>
                 <li><a data-toggle="tab" href="#configuracoes">Configurações</a></li>
-                <label style="margin-right: 5px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-time"></span>  {{ data | date:'HH:mm' }}</label>
+                <button type="button" class="btn btn-default btn-sm" style="margin-right: 7px; margin-top: 2px; float: right" ng-click="logout()">Logout<span class="glyphicon glyphicon-log-out" style="padding-left: 10px"/></button>
+                <label style="margin-right: 10px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-time"></span>  {{ data | date:'HH:mm' }}</label>
                 <label style="margin-right: 5px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy' }}</label>
+
             </ul>
 
             <div class="tab-content" style="margin-top: 15px">
@@ -226,21 +257,38 @@ and open the template in the editor.
 
                     <div class="container-fluid">
 
-                        <div>
-                            <label>Data limite para pagamento da mensalidade: </label> <input type="number" value="1" name="dataLimite" ng-model="dataLimite" min="1" max="31" style="text-align: center">
-                        </div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>Valor da mensalidade: </label>
+                                </td>
 
-                        <div class="input-group">
-                            <label>Valor da mensalidade: </label>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input type="text" value="1" name="dataLimite" ng-model="dataLimite" min="1" max="31" style="text-align: center">
-                        </div>
+                                <td style="padding-left: 10px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" name="valor" ng-keypress="validate(event)" class="form-control" style="width: 50px" maxlength="3">
+                                        <span class="input-group-addon">.00</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top: 10px">
+                                    <label>Data limite para o pagamento: </label>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 10px">
+                                    <div>
+                                        <input type="number" value="1" name="dataLimite" ng-model="dataLimite" min="1" max="31" style="text-align: center; width: 127px">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <div class="navbar navbar-fixed-bottom" role="navigation" style="margin-left: 20px;" align="center">
-                <label>© Copyright 2016</label>
+            <div id="footer" class="navbar navbar-fixed-bottom" align="center">
+                <p class="text-muted credit" style="padding-top: 10px">© Copyright 2016 | <a href="http://www.google.com.br" style="color: #ff653c">Maracabarro FC</a></p>
             </div>
         </form>
     </body>
