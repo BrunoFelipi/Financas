@@ -137,7 +137,6 @@ and open the template in the editor.
                 <button type="button" class="btn btn-default btn-sm" style="margin-right: 7px; margin-top: 2px; float: right" ng-click="logout()">Logout<span class="glyphicon glyphicon-log-out" style="padding-left: 10px"/></button>
                 <label style="margin-right: 10px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-time"></span>  {{ data | date:'HH:mm' }}</label>
                 <label style="margin-right: 5px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy' }}</label>
-
             </ul>
 
             <div class="tab-content" style="margin-top: 15px">
@@ -152,7 +151,7 @@ and open the template in the editor.
                             <!--<p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Nome é obrigatório</p>-->
                         </div>
 
-                        <table class="table table-striped" style="margin-top: 20px">
+                        <table class="table table-striped" style="margin-top: 1%">
                             <th>id</th>
                             <th>Nome</th>
                             <th>Adicionado em:</th>
@@ -174,24 +173,29 @@ and open the template in the editor.
                 <div id="gerenciamento" class="tab-pane fade">
 
                     <div class="container-fluid" >
-                        <input type="text" class="form-control" ng-model="search" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px; "/>
+                        <input type="text" class="form-control" ng-model="search2" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px; "/>
                     </div>
 
-                    <div class="container-fluid" style="margin-top: 15px" >
+                    <div class="container-fluid" style="margin-top: 1%" >
                         <table class="table table-striped">
-                            <th>id</th>
-                            <th>Nome</th>
-                            <th>Adicionado em:</th>
-                            <th></th>
-
-                            <tr ng-repeat="n in listaPessoas | filter:search">
-                                <td> {{ n.id }} </td>
-                                <td> {{ n.name }} </td>
-                                <td> {{ data | date:'dd/MM/yyyy'}} </td>
-                                <td>
-                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="detalhes(n.id, n.name)">Detalhes</button>
-                                </td>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Nome</th>
+                                    <th>Adicionado em:</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="n in listaPessoas | filter:search2">
+                                    <td> {{ n.id }} </td>
+                                    <td> {{ n.name }} </td>
+                                    <td> {{ data | date:'dd/MM/yyyy'}} </td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="detalhes(n.id, n.name)">Detalhes</button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
 
@@ -255,16 +259,143 @@ and open the template in the editor.
 
                 <!-- Menu 4 - Caixa-->
 
-                <div id="caixa" class="tab-pane fade in active">
+                <div id="caixa" class="tab-pane fade">
 
+                    <div class="container-fluid">
+                        <table>
+                            <tr>
+                                <td style="padding-top: 5px">
+                                    <label>Data: </label>
+                                </td>
 
+                                <td style="padding-left: 10px; padding-top: 5px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width: 25px"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        <input type="date" name="dataEntrada" ng-model="dataEntrada" min="2016-01-01" class="form-control" style="width: 165px">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top: 5px">
+                                    <label>Descrição: </label>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 5px">
+                                    <input type="text" class="form-control" name="descricaoEntrada" ng-model="descricaoEntrada" style="width: 204px">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top: 5px">
+                                    <label>Valor: </label>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 5px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width: 38px">$</span>
+                                        <input type="number" name="valorEntrada" ng-model="valorEntrada" class="form-control" style="width: 167px" min="0.0" step="0.10">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+
+                                </td>
+
+                                <td style="padding-left: 10px; padding-top: 15px">
+                                    <div class="btn-group" data-toggle="buttons">
+
+                                        <label class="btn btn-default" style="width: 102px">
+                                            <input type="radio" id="radioEntrada" name="entrada">Entrada
+                                        </label>
+                                        <label class="btn btn-default" style="width: 102px">
+                                            <input type="radio" id="radioSaida" name="saida" value="Saída" style="width: 100px">Saída
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 15px">
+                                    <button type="submit" name="addEntrada" class="form-control">Adicionar</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <hr>
+
+                    <!-- Cria o navbar dentro do menu Caixa -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#entrada">Entrada</a></li>
+                        <li><a data-toggle="tab" href="#saida">Saida</a></li>
+                    </ul>
+
+                    <!-- Menu Entrada -->
+                    <div id="entrada" class="tab-pane fade in active">
+
+                        <div class="container-fluid" style="margin-top: 1%">
+
+                            <input type="text" class="form-control" ng-model="procurarEntrada" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px; "/>
+
+                            <table class="table table-striped" style="width: 20%; margin-top: 1%">
+
+                                <thead>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Menu Saída -->
+                    <div id="saida" class="tab-pane fade">
+
+                        <div class="container-fluid" style="margin-top: 1%">
+
+                            <input type="text" class="form-control" ng-model="procurarSaida" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px; "/>
+
+                            <table class="table table-striped" style="width: 20%; margin-top: 1%">
+
+                                <thead>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Menu 5 - Configurações-->
                 <div id="configuracoes" class="tab-pane fade">
 
                     <div class="container-fluid">
-
                         <table>
                             <tr>
                                 <td>
