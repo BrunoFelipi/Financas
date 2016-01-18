@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author bruno.souza
  */
-public class PessoaDao implements Dao <Pessoa> {
+public class PessoaDao {
 
     Connection bd = BancoDeDados.getConnection();
     

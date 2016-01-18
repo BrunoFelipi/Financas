@@ -29,31 +29,9 @@ and open the template in the editor.
                 background-color: #f9f9f9;
             }
 
-            .box {
-                margin: 50px auto;
-                background: #cf7514;
-                width: 25px;
-                height: 25px;
-            }
-
-            .box:hover {
-                -webkit-transform: rotate(360deg);
-                background: #cf7514;
-                border-radius: 50%;
-            }
-
-            .rotate {
-                -webkit-transition: all 0.5s ease-in-out;
-                -moz-transition: all 0.5s ease-in-out;
-                -o-transition: all 0.5s ease-in-out;
-                transition: all 0.5s ease-in-out;
-            }
-
-            .rotate:hover {
-                -webkit-transition: all 1s ease-in-out;
-                -moz-transition: all 1s ease-in-out;
-                -o-transition: all 1s ease-in-out;
-                transition: all 1s ease-in-out;
+            /* Set the fixed height of the footer here */
+            #footer {
+                background-color: #f5f5f5;
             }
 
         </style>
@@ -88,7 +66,6 @@ and open the template in the editor.
                     for(var i = 0; i < $scope.listaPessoas.length; i++ ) {
                         $scope.listaPessoas[i].id = i +1;
                     }
-
                 };
 
                 //REMOVEROW
@@ -118,6 +95,30 @@ and open the template in the editor.
                     $scope.id = id;
                     $scope.name = name;
                 }
+
+                //Logout
+                $scope.logout = function(){
+                    window.location.href = "login.html";
+                }
+
+                //VALIDATE - validar o valor do campo "Valor da mensalidade" para aceitar apenas números.
+                $scope.validate = function (evt) {
+                    var theEvent = evt || window.event;
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode( key );
+                    var regex = /[0-9]|\./;
+                    if( !regex.test(key) ) {
+                        theEvent.returnValue = false;
+                        if(theEvent.preventDefault) theEvent.preventDefault();
+                    }
+                }
+
+                //EXECUTA AO CARREGAR A PÁGINA
+                angular.element(document).ready(function () {
+                    document.getElementsByName('dataLimite')[0].value = "1";
+                    document.getElementsByName('valor')[0].value = "0";
+                });
+
             });
         </script>
 
@@ -131,13 +132,12 @@ and open the template in the editor.
                 <li class="active"><a data-toggle="tab" href="#cadastro">Cadastro</a></li>
                 <li><a data-toggle="tab" href="#gerenciamento">Gerenciamento</a></li>
                 <li><a data-toggle="tab" href="#lancamentos">Lançamentos</a></li>
+                <li><a data-toggle="tab" href="#caixa">Caixa</a></li>
                 <li><a data-toggle="tab" href="#configuracoes">Configurações</a></li>
+                <button type="button" class="btn btn-default btn-sm" style="margin-right: 7px; margin-top: 2px; float: right" ng-click="logout()">Logout<span class="glyphicon glyphicon-log-out" style="padding-left: 10px"/></button>
+                <label style="margin-right: 10px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-time"></span>  {{ data | date:'HH:mm' }}</label>
+                <label style="margin-right: 5px; margin-top: 10px; float: right"><span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy' }}</label>
             </ul>
-
-            <div class="navbar navbar-fixed-top" role="navigation" style="margin-left: 20px; margin-right: 20px; margin-top: 15px" align="right">
-                <span class="glyphicon glyphicon-calendar"></span> {{ data | date:'dd/MM/yyyy'}}
-                <span class="glyphicon glyphicon-time " style="padding-left: 10px"></span> {{ data | date:'HH:mm'}}
-            </div>
 
             <div class="tab-content" style="margin-top: 15px">
 
@@ -151,7 +151,7 @@ and open the template in the editor.
                             <!--<p ng-show="form.name.$invalid && !form.name.$pristine" class="help-block">Nome é obrigatório</p>-->
                         </div>
 
-                        <table class="table table-striped" style="margin-top: 20px">
+                        <table class="table table-striped" style="margin-top: 1%">
                             <th>id</th>
                             <th>Nome</th>
                             <th>Adicionado em:</th>
@@ -173,24 +173,29 @@ and open the template in the editor.
                 <div id="gerenciamento" class="tab-pane fade">
 
                     <div class="container-fluid" >
-                        <input type="text" class="form-control" ng-model="search" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px; "/>
+                        <input type="text" class="form-control" ng-model="pesquisaGerenciamento" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px; "/>
                     </div>
 
-                    <div class="container-fluid" style="margin-top: 15px" >
+                    <div class="container-fluid" style="margin-top: 1%" >
                         <table class="table table-striped">
-                            <th>id</th>
-                            <th>Nome</th>
-                            <th>Adicionado em:</th>
-                            <th></th>
-
-                            <tr ng-repeat="n in listaPessoas | filter:search">
-                                <td> {{ n.id }} </td>
-                                <td> {{ n.name }} </td>
-                                <td> {{ data | date:'dd/MM/yyyy'}} </td>
-                                <td>
-                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="detalhes(n.id, n.name)">Detalhes</button>
-                                </td>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Nome</th>
+                                    <th>Adicionado em:</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="n in listaPessoas | filter: pesquisaGerenciamento">
+                                    <td> {{ n.id }} </td>
+                                    <td> {{ n.name }} </td>
+                                    <td> {{ data | date:'dd/MM/yyyy'}} </td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="detalhes(n.id, n.name)">Detalhes</button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
 
@@ -234,7 +239,7 @@ and open the template in the editor.
                                     <div class="modal-footer">
 
                                         <div style="float: left">
-                                            <button type="button" class="btn btn-sm" style="background-color: #4cae4c"></button> <label> Pago até dia 15 </label>
+                                            <button type="button" class="btn btn-sm" style="background-color: #4cae4c"></button> <label> Pago até dia {{ dataLimite }} </label>
                                             <button type="button" class="btn btn-sm" style="background-color: gold"> </button> <label> Pago até ultimo dia do mês </label>
                                             <button type="button" class="btn btn-sm" style="background-color: orangered"> </button> <label> Em atraso </label>
                                         </div>
@@ -252,18 +257,196 @@ and open the template in the editor.
 
                 </div>
 
-                <!-- Menu 3 - Configurações-->
-                <div id="configuracoes" class="tab-pane fade">
+                <!-- Menu 4 - Caixa-->
 
-                    <div class="container">
-                        <div class="box rotate"></div>
+                <div id="caixa" class="tab-pane fade">
+
+                    <div class="container-fluid">
+                        <table>
+                            <tr>
+                                <td style="padding-top: 5px">
+                                    <label>Data: </label>
+                                </td>
+
+                                <td style="padding-left: 10px; padding-top: 5px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width: 25px"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        <input type="date" name="dataEntrada" ng-model="dataEntrada" min="2016-01-01" class="form-control" style="width: 165px">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top: 5px">
+                                    <label>Descrição: </label>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 5px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width: 35px"><i class="glyphicon glyphicon-pencil"></i></span>
+                                            <input type="text" class="form-control" name="descricaoEntrada" ng-model="descricaoEntrada" style="width: 165px">
+                                        </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top: 5px">
+                                    <label>Valor: </label>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 5px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="width: 38px">$</span>
+                                        <input type="number" name="valorEntrada" ng-model="valorEntrada" class="form-control" style="width: 165px" min="0.0" step="0.10">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+
+                                </td>
+
+                                <td style="padding-left: 10px; padding-top: 15px">
+                                    <div class="btn-group" data-toggle="buttons">
+
+                                        <label class="btn btn-default" style="width: 102px">
+                                            <input type="radio" id="radioEntrada" name="entrada">Entrada
+                                        </label>
+                                        <label class="btn btn-default" style="width: 102px">
+                                            <input type="radio" id="radioSaida" name="saida" value="Saída" style="width: 100px">Saída
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 15px">
+                                    <button type="submit" name="addEntrada" class="btn btn-default btn-block">Adicionar</button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
 
+                    <hr>
+
+                    <!-- Cria o navbar dentro do menu Caixa -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#entrada">Entrada</a></li>
+                        <li><a data-toggle="tab" href="#saida">Saida</a></li>
+                    </ul>
+
+                    <!-- Menu Entrada -->
+                    <div id="entrada" class="tab-pane fade in active">
+
+                        <div class="container-fluid" style="margin-top: 1%">
+
+                            <input type="text" class="form-control" ng-model="procurarEntrada" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px"/>
+
+                            <table class="table table-striped" style="width: 20%">
+
+                                <thead>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Menu Saída -->
+                    <div id="saida" class="tab-pane fade">
+
+                        <div class="container-fluid" style="margin-top: 1%">
+
+                            <input type="text" class="form-control" ng-model="procurarSaida" placeholder="Procurar..." style="background-color: #e9e9e9; width: 250px"/>
+
+                            <table class="table table-striped" style="width: 20%">
+
+                                <thead>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 5 - Configurações-->
+                <div id="configuracoes" class="tab-pane fade">
+
+                    <div class="container-fluid">
+                        <table>
+
+                            <tr>
+                                <td>
+                                    <label>Valor da multa: </label>
+                                </td>
+
+                                <td style="padding-left: 10px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="number" name="valorMulta" ng-model="valorMulta" class="form-control" style="width: 100px" maxlength="3" min="0.0">
+                                        <span class="input-group-addon">.00</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label>Valor da mensalidade: </label>
+                                </td>
+
+                                <td style="padding-left: 10px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="number" name="valorMensalidade" ng-model="valorMensalidade" class="form-control" style="width: 100px" maxlength="3" min="0.0">
+                                        <span class="input-group-addon">.00</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top: 10px">
+                                    <label>Data limite para o pagamento: </label>
+                                </td>
+                                <td style="padding-left: 10px; padding-top: 10px">
+                                    <div>
+                                        <input type="number" value="1" name="dataLimite" ng-model="dataLimite" min="1" max="31" style="text-align: center; width: 127px">
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="navbar navbar-fixed-bottom" role="navigation" style="margin-left: 20px;" align="center">
-                <label>© Copyright 2016</label>
+            <div id="footer" class="navbar navbar-fixed-bottom" align="center">
+                <p class="text-muted credit" style="padding-top: 10px">© Copyright {{ data | date:'yyyy'}} | <a href="https://www.facebook.com/Maracabarro-FC-919965614713913/?fref=ts" target="_blank" style="color: #ff653c">Maracabarro FC</a></p>
             </div>
         </form>
     </body>

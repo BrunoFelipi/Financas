@@ -16,13 +16,8 @@
             app.controller('controler', function($scope) {
                 $scope.data = new Date();
 
-                $scope.redirect = function(){
-                    window.location.href = "index.html";
-                }
-
                 $scope.submitForm = function(isValid, login) {
 
-                    // verifica se o formulário é válido
                     if (isValid && login == true) {
                         window.location.href = "index.html";
                     } else if(login == false){
@@ -55,7 +50,7 @@
 
                     <div class="modal-body" style="padding:40px 50px;">
 
-                        <form name="form">
+                        <form name="form" action="loginCheck.jsp">
 
                             <div class="input-group margin-bottom-sm">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
